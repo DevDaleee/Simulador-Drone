@@ -69,5 +69,21 @@ class Visualizer:
             txt(t, lx+10, 42+i*22, c)
         sep(134)
 
+        txt("LEGENDA", lx+10, 140, GR)
+        for i, (lbl, col) in enumerate([("Em voo", FL), ("Chegou", AR), ("Colidiu", CO)]):
+            pygame.draw.circle(s, col, (lx+18, 162+i*22), 5)
+            txt(lbl, lx+30, 155+i*22, col)
+        sep(228)
+
+        txt("EVENTOS", lx+10, 234, GR)
+        if events:
+            for i, ev in enumerate(events[-8:]):
+                if ev["type"] == "chegada":
+                    line, col = f"D{ev['drone_id']} chegou  p.{ev['step']}", AR
+                else:
+                    ids = ",".join(str(x) for x in ev["drones"])
+                    line, col = f"D{ids} col.  p.{ev['step']}", CO
+                txt(line, lx+10, 252+i*20, col)
+
         pygame.display.flip()
         self.clock.tick(self.fps)
