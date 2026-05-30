@@ -17,3 +17,33 @@ class Visualizer:
         self.font  = pygame.font.SysFont("Courier", 13)
         self.fontL = pygame.font.SysFont("Courier", 15, bold=True)
         self.fps   = fps
+
+    def _cor(self, d):
+        return FL if d.status == "em_voo" else AR if d.status == "chegou" else CO
+
+    def update(self, drones, step, events=None):
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+        s = self.screen
+        s.fill(BG)
+
+        for d in drones:
+            if d.status == "em_voo":
+                pygame.draw.line(s, (30, 30, 65),
+                                 (int(d.x),      int(d.y)),
+                                 (int(d.dest_x), int(d.dest_y)), 1)
+
+        for d in drones:
+            x, y = int(d.dest_x), int(d.dest_y)
+            pygame.draw.line(s, GR, (x-5,y-5),(x+5,y+5), 2)
+            pygame.draw.line(s, GR, (x+5,y-5),(x-5,y+5), 2)
+
+        for d in drones:
+            px, py = int(d.x), int(d.y)
+            pygame.draw.circle(s, self._cor(d), (px, py), 6)
+            s.blit(self.font.render(str(d.id), True, WH), (px+8, py-6))
+
+        pygame.display.flip()
+        self.clock.tick(self.fps)
