@@ -45,5 +45,29 @@ class Visualizer:
             pygame.draw.circle(s, self._cor(d), (px, py), 6)
             s.blit(self.font.render(str(d.id), True, WH), (px+8, py-6))
 
+        lx = self.w
+        pygame.draw.rect(s, PN, (lx, 0, PANEL_W, self.h))
+        pygame.draw.line(s, (40, 40, 90), (lx, 0), (lx, self.h), 2)
+
+        def txt(text, x, y, color=WH, f=None):
+            s.blit((f or self.font).render(text, True, color), (x, y))
+
+        def sep(y):
+            pygame.draw.line(s, (40,40,90), (lx+8, y), (lx+PANEL_W-8, y), 1)
+
+        t = self.fontL.render("SIMULADOR DE DRONES", True, YL)
+        s.blit(t, t.get_rect(center=(lx + PANEL_W//2, 18)))
+        sep(34)
+
+        hud = [
+            (f"Passo   : {step}",                                          WH),
+            (f"Em voo  : {sum(1 for d in drones if d.status=='em_voo')}",  FL),
+            (f"Chegados: {sum(1 for d in drones if d.status=='chegou')}",  AR),
+            (f"Colisoes: {sum(1 for d in drones if d.status=='colidiu')}", CO),
+        ]
+        for i, (t, c) in enumerate(hud):
+            txt(t, lx+10, 42+i*22, c)
+        sep(134)
+
         pygame.display.flip()
         self.clock.tick(self.fps)
