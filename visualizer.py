@@ -87,3 +87,41 @@ class Visualizer:
 
         pygame.display.flip()
         self.clock.tick(self.fps)
+
+    def show_final_metrics(self, m):
+        waiting = True
+        while waiting:
+            for e in pygame.event.get():
+                if e.type in (pygame.QUIT, pygame.KEYDOWN):
+                    waiting = False
+            s = self.screen
+            s.fill(BG)
+            t = self.fontL.render("RESULTADO FINAL DA SIMULACAO", True, YL)
+            s.blit(t, t.get_rect(center=(self.tw//2, 36)))
+            pygame.draw.line(s, YL, (80, 54), (self.tw-80, 54), 1)
+
+            rows = [
+                ("Chegaram ao destino", f"{m['qtd_chegaram']}",                 AR),
+                ("Colidiram",           f"{m['qtd_colidiram']}",                 CO),
+                ("Nao concluiram",      f"{m['qtd_nao_concluiram']}",            FL),
+                ("Taxa de colisao",     f"{m['taxa_colisao']:.1f}%",             WH),
+                ("Perc. de sucesso",    f"{m['percentual_sucesso']:.1f}%",       AR),
+                ("Tempo medio missao",  f"{m['tempo_medio_missao']:.1f} passos", WH),
+                ("Distancia media",     f"{m['distancia_media']:.1f} px",        WH),
+                ("Total de passos",     f"{m['total_steps']}",                   WH),
+                ("Tempo real",          f"{m['tempo_real_segundos']:.2f}s",      YL),
+            ]
+            cl = self.tw//2 - 270
+            cr = self.tw//2 + 90
+            for i, (lbl, val, col) in enumerate(rows):
+                y = 66 + i*50
+                if i % 2 == 0:
+                    pygame.draw.rect(s, (10,10,32), (cl-10, y-4, 600, 42))
+                s.blit(self.font.render(lbl+":", True, (150,150,150)), (cl, y+8))
+                s.blit(self.font.render(val,     True, col),           (cr, y+8))
+
+            h = self.font.render("Pressione qualquer tecla para sair", True, GR)
+            s.blit(h, h.get_rect(center=(self.tw//2, self.h-28)))
+            pygame.display.flip()
+            self.clock.tick(30)
+        pygame.quit()

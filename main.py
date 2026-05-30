@@ -43,9 +43,14 @@ def print_metrics(m, events):
     print(sep)
 
 
-if __name__ == "__main__":
+def main():
     drones = create_drones()
     viz    = Visualizer(W, H, FPS)
     result = run(drones, viz)
     m      = compute(drones, result["total_steps"], result["elapsed"])
     print_metrics(m, result["events"])
+    viz.show_final_metrics(m)
+
+
+if __name__ == "__main__":
+    main()
