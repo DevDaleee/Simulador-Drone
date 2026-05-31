@@ -1,14 +1,12 @@
 import time
 import math
-
-COLLISION_DIST = 15
-MAX_STEPS      = 300
+import config
 
 def run(drones, viz):
     events, total_steps = [], 0
     t0 = time.perf_counter()
 
-    for step in range(1, MAX_STEPS + 1):
+    for step in range(1, config.MAX_STEPS + 1):
         flying = [d for d in drones if d.status == "em_voo"]
         if not flying:
             break
@@ -23,7 +21,7 @@ def run(drones, viz):
             for j in range(i + 1, len(airborne)):
                 d1, d2 = airborne[i], airborne[j]
                 dist = math.sqrt((d2.x - d1.x)**2 + (d2.y - d1.y)**2)
-                if dist < COLLISION_DIST:
+                if dist < config.COLLISION_DIST:
                     for d in [d1, d2]:
                         if d.status == "em_voo":
                             d.status, d.end_step = "colidiu", step

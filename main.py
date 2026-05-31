@@ -3,21 +3,16 @@ from drone      import Drone
 from simulation import run
 from metrics    import compute
 from visualizer import Visualizer
-
-W, H   = 800, 600
-N      = 15
-MARGIN = 60
-FPS    = 60
-
+import config
 
 def create_drones():
     drones = []
-    for i in range(N):
-        x      = random.uniform(MARGIN, W - MARGIN)
-        y      = random.uniform(MARGIN, H - MARGIN)
-        dest_x = random.uniform(MARGIN, W - MARGIN)
-        dest_y = random.uniform(MARGIN, H - MARGIN)
-        speed  = round(random.uniform(0.5, 3.5), 2)
+    for i in range(config.DRONE_NUMBER):
+        x      = random.uniform(config.MARGIN, config.W - config.MARGIN)
+        y      = random.uniform(config.MARGIN, config.H - config.MARGIN)
+        dest_x = random.uniform(config.MARGIN, config.W - config.MARGIN)
+        dest_y = random.uniform(config.MARGIN, config.H - config.MARGIN)
+        speed  = round(random.uniform(config.SPEED_MIN, config.SPEED_MAX), 2)
         drones.append(Drone(i, x, y, dest_x, dest_y, speed))
     return drones
 
@@ -45,7 +40,7 @@ def print_metrics(m, events):
 
 def main():
     drones = create_drones()
-    viz    = Visualizer(W, H, FPS)
+    viz    = Visualizer(config.W, config.H, config.FPS)
     result = run(drones, viz)
     m      = compute(drones, result["total_steps"], result["elapsed"])
     print_metrics(m, result["events"])

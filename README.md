@@ -14,16 +14,17 @@ pip install pygame numpy
 python main.py
 ```
 
-## Parâmetros configuráveis (`main.py`)
+## Parâmetros configuráveis (`config.py`)
 
-| Parâmetro | Padrão | Descrição |
-|---|---|---|
+| Parâmetro | Valor Padrão | Descrição |
+| :--- | :--- | :--- |
 | `W`, `H` | 800, 600 | Dimensões da janela em pixels |
 | `N` | 15 | Número de drones na simulação |
 | `MARGIN` | 60 | Distância mínima das bordas para posições e destinos |
 | `FPS` | 60 | Frames por segundo da visualização |
+| `COLLISION_DIST` | 15 | Distância em pixels para detectar colisão |
+| `MAX_STEPS` | 300 | Limite máximo de passos da simulação |
 
-O parâmetro `COLLISION_DIST` (padrão `15` px) e `MAX_STEPS` (padrão `2000`) ficam em `simulation.py`.
 
 ## Métricas geradas
 
@@ -31,7 +32,7 @@ O parâmetro `COLLISION_DIST` (padrão `15` px) e `MAX_STEPS` (padrão `2000`) f
 |---|---|
 | `qtd_chegaram` | Drones que alcançaram o destino com sucesso |
 | `qtd_colidiram` | Drones envolvidos em colisão |
-| `qtd_nao_concluiram` | Drones ainda em voo ao fim dos 2000 passos |
+| `qtd_nao_concluiram` | Drones ainda em voo ao fim dos passos configurados |
 | `taxa_colisao` | `(colidiram / total) × 100` em % |
 | `percentual_sucesso` | `(chegaram / total) × 100` em % |
 | `tempo_medio_missao` | Média de passos até encerrar (chegada ou colisão) |
