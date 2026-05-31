@@ -17,7 +17,13 @@ def create_drones():
         y      = random.uniform(MARGIN, H - MARGIN)
         dest_x = random.uniform(MARGIN, W - MARGIN)
         dest_y = random.uniform(MARGIN, H - MARGIN)
-        speed  = round(random.uniform(1.5, 3.5), 2)
+
+        #~20% dos drones irão ter vel baixa (não vão chegaar a tempo)
+        if random.random() < 0.2:
+            speed = round(random.uniform(0.3, 0.6), 2)
+        else:
+            speed = round(random.uniform(1.5, 3.5), 2)
+
         drones.append(Drone(i, x, y, dest_x, dest_y, speed))
     return drones
 
